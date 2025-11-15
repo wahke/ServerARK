@@ -52,7 +52,14 @@ sudo apt update
 sudo apt install build-essential libpcap-dev iptables
 ```
 ```bash
-wget 
+wget https://github.com/wahke/ServerARK/releases/latest/download/serverarkd-linux-amd64.zip
+```
+```bash
+unzip serverarkd-linux-amd64.zip
+```
+Zum Testen direkt starten:
+```bash
+sudo ./serverarkd
 ```
 ---
 

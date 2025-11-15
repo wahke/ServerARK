@@ -30,13 +30,14 @@ jobs:
           mkdir -p dist
           cp serverarkd dist/
           cd dist
-          # Versionsname aus dem Tag holen, z.B. v1.0.0
+          # Tag-Name wäre z.B. v1.1.0 – falls du ihn später brauchst:
           VERSION="${GITHUB_REF##*/}"
-          zip "serverarkd-${VERSION}-linux-amd64.zip" serverarkd
+          # Statischer Name für README / latest-URL
+          zip "serverarkd-linux-amd64.zip" serverarkd
 
       - name: Upload ZIP to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/serverarkd-*-linux-amd64.zip
+          files: dist/serverarkd-linux-amd64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
