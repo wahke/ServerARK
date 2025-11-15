@@ -4,6 +4,9 @@ on:
   release:
     types: [published]   # läuft, wenn du ein Release auf GitHub veröffentlichst
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
