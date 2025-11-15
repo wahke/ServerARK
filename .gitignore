@@ -4,7 +4,7 @@
 # Lizenz: MIT
 # Alle Rechte vorbehalten.
 #
-# File: .gitattributes
+# File: .gitignore
 
-# Auto detect text files and perform LF normalization
-* text=auto
+# WebUI
+webroot/

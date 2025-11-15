@@ -36,7 +36,8 @@ SRCS = \
     serverark_core.c \
     serverark_web.c \
     serverark_conf.c \
-    serverark_log.c
+    serverark_log.c \
+    serverark_static.c
 
 OBJS = $(SRCS:.c=.o)
 

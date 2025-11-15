@@ -10,6 +10,7 @@
 #include "serverark_core.h"
 #include "serverark_conf.h"
 #include "serverark_log.h"
+#include "serverark_static.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -303,36 +304,27 @@ static void handle_api_whitelist_del(int c, const char *body) {
 /* ----------------------------- Static Files ------------------------------ */
 
 static int serve_static(int c, const char *path) {
-    char full[256];
-    const char *fname = NULL;
-    if (strcmp(path,"/")==0 || strcmp(path,"/index.html")==0) fname = "index.html";
-    else if (strcmp(path,"/app.js")==0) fname = "app.js";
-    else if (strcmp(path,"/style.css")==0) fname = "style.css";
-    if (!fname) return 0;
+    const static_file_t *sf = static_file_lookup(path);
+    if (!sf) {
+        // Nichts eingebettet für diesen Pfad -> 0 = nicht gehandhabt
+        return 0;
+    }
 
-    snprintf(full,sizeof(full),"webroot/%s",fname);
-    FILE *f = fopen(full,"r");
-    if (!f) {
-        send_response(c,"404 Not Found","text/plain","Not found");
-        return 1;
+    // Antwort mit eingebetteten Daten
+    dprintf(c,
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: %s\r\n"
+        "Content-Length: %zu\r\n"
+        "Connection: close\r\n"
+        "\r\n",
+        sf->content_type,
+        sf->length
+    );
+
+    // Rohdaten schicken
+    if (sf->length > 0) {
+        write(c, sf->data, sf->length);
     }
-    fseek(f,0,SEEK_END);
-    long sz = ftell(f);
-    fseek(f,0,SEEK_SET);
-    char *buf = malloc(sz+1);
-    if (!buf) {
-        fclose(f);
-        send_response(c,"500 Internal Server Error","text/plain","OOM");
-        return 1;
-    }
-    fread(buf,1,sz,f);
-    buf[sz]=0;
-    fclose(f);
-    const char *ctype = "text/html";
-    if (strstr(fname,".js")) ctype="application/javascript";
-    if (strstr(fname,".css")) ctype="text/css";
-    send_response(c,"200 OK",ctype,buf);
-    free(buf);
     return 1;
 }
 
