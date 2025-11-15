@@ -1,9 +1,8 @@
-name: Build ServerArk
+name: Build & Package ServerArk
 
 on:
-  push:
-    tags:
-      - 'v*'   # läuft nur wenn du ein Tag wie v1.0.0 pushst
+  release:
+    types: [published]   # läuft, wenn du ein Release auf GitHub veröffentlichst
 
 jobs:
   build:
@@ -12,9 +11,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # wichtig für git describe (Version aus Tags)
 
-      - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y build-essential libpcap-dev
+      - name: Install build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libpcap-dev zip
 
-      - name: Build
+      - name: Build (make)
         run: make
+
+      - name: Prepare ZIP
+        run: |
+          mkdir -p dist
+          cp serverarkd dist/
+          cd dist
+          # Versionsname aus dem Tag holen, z.B. v1.0.0
+          VERSION="${GITHUB_REF##*/}"
+          zip "serverarkd-${VERSION}-linux-amd64.zip" serverarkd
+
+      - name: Upload ZIP to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/serverarkd-*-linux-amd64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
