@@ -12,11 +12,11 @@ Es kann interaktiv mit hoher Ausführlichkeit ausgeführt werden (um seine Logik
 ## Inhalt
 
 - [Features](#feature)
-- [Debian/Ubuntu](#Debian/Ubuntu)
+- [Debian/Ubuntu](#debianubuntu)
 - [Konfiguration](#Konfiguration)
-- [WebUI](WebUI)
-- [Systemd-Beispiel](Systemd-Beispiel)
-- [Version](Version)
+- [WebUI](#webui)
+- [Systemd-Beispiel](#systemd-beispiel)
+- [Version](#version)
 - [Lizenz](#lizenz)
 - [Copyright](#copyright)
 
