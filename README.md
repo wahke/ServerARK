@@ -1,4 +1,4 @@
-# ServerArk (modernized)
+# ServerArk
 
 **ServerArk** ist ein leichtgewichtiges UDP-Flood-Protection-Tool für Linux-Game- und Anwendungs-Server. Es überwacht eingehende UDP-Pakete über `libpcap` und blockiert Angreifer per `iptables`, bevor die Pakete den eigentlichen Server erreichen.
 
@@ -8,42 +8,42 @@
 
 Es kann interaktiv mit hoher Ausführlichkeit ausgeführt werden (um seine Logik in Aktion beobachten zu können), oder unauffällig als Daemon mit Ausgaben in tägliche Logdateien (typische Verwendung).
 
-- Plattform: **Linux** (getestet auf Debian/Ubuntu)
-- Sprache: **C**
-- WebUI: **eingebauter HTTP-Server (Port 8888 standardmäßig)**
-- Lizenz: MIT-Lizenz; basiert auf dem ursprünglichen ServerArk von Boyd G. Gafford Ph.D. (drboyd), erweitert von **wahke.lu**
 ---
+## Inhalt
 
+- [Features](#feature)
+- [Debian/Ubuntu](#Debian/Ubuntu)
+- [Konfiguration](#Konfiguration)
+- [WebUI](WebUI)
+- [Systemd-Beispiel](Systemd-Beispiel)
+- [Version](Version)
+- [Lizenz](#lizenz)
+- [Copyright](#copyright)
+
+---
 ## Features
 
-- 🔍 **UDP-Traffic-Analyse** per `libpcap` (wie `tcpdump`)
-- 🛡 **Automatisches Blocken von IPs** via `iptables -j DROP`
-- 📈 Konfigurierbare Schwellenwerte:
+-  **UDP-Traffic-Analyse** per `libpcap` (wie `tcpdump`)
+-  **Automatisches Blocken von IPs** via `iptables -j DROP`
+-  Konfigurierbare Schwellenwerte:
   - Pakete pro Sekunde pro Spieler
   - globaler Threshold-Faktor
-- 🧾 **Block-Liste** ( aktuell geblockte IPs )
-- ✅ **Whitelist**:
+-  **Block-Liste** ( aktuell geblockte IPs )
+-  **Whitelist**:
   - IPs, die niemals geblockt werden
   - bereits geblockte IPs werden automatisch wieder freigegeben
-- 🌐 **Integrierte WebUI**:
+-  **Integrierte WebUI**:
   - Status (On/Off, Threshold, Frequenz)
   - Konfiguration bearbeiten (Analyse & WebUI)
   - Blockierte IPs ansehen & freigeben
   - Whitelist verwalten
   - Live-Log-Viewer
   - Mehrsprachig: Deutsch & Englisch
-- 🧷 **Konfigurationsdatei** unter `/etc/serverark.conf`
-- 📜 **Whitelist-Datei** unter `/etc/serverark.whitelist`
+-  **Konfigurationsdatei** unter `/etc/serverark.conf`
+-  **Whitelist-Datei** unter `/etc/serverark.whitelist`
 
 ---
-
-## Systemvoraussetzungen
-
-- Linux (mit `iptables`)
-- `libpcap-dev` (Header für `pcap.h`)
-- `pthread` (meist in glibc enthalten)
-
-### Debian / Ubuntu
+## Debian/Ubuntu
 
 ```bash
 sudo apt update
@@ -62,8 +62,7 @@ Zum Testen direkt starten:
 sudo ./serverarkd
 ```
 ---
-
-### Konfiguration
+## Konfiguration
 
 Standardpfad:
 ```
@@ -145,7 +144,7 @@ Sprachen:
  - Umschaltbar (Select oben rechts): DE / EN
 
 
-## Systemd-Beispiel (optional)
+## Systemd-Beispiel
 
 Beispiel-Service-Unit /etc/systemd/system/serverarkd.service:
 ```
@@ -162,7 +161,6 @@ User=root
 [Install]
 WantedBy=multi-user.target
 ```
-
 Dann:
 ```
 sudo systemctl daemon-reload
@@ -170,9 +168,8 @@ sudo systemctl enable serverarkd
 sudo systemctl start serverarkd
 sudo systemctl status serverarkd
 ```
-
 ---
-### Version
+## Version
 
 
 - v1.1.0
@@ -185,3 +182,16 @@ sudo systemctl status serverarkd
     - iptables-Blocking
     - WebUI mit Status/Config/Whitelist/Logs
     - Konfigurationsdatei /etc/serverark.conf
+---
+
+## Lizenz
+
+Dieses Projekt steht unter der MIT-Lizenz.
+
+---
+
+## Copyright
+
+```
+Copyright © 2021 - 2025 wahke.lu
+```
